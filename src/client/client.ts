@@ -63,16 +63,28 @@ function addObject() {
     return newObject;
 }
 
+const rotation1 = {
+    animation: true
+}
+
+const rotation2 = {
+    animation: true
+}
+
+const rotation3 = {
+    animation: true
+}
+
 const gui = new GUI()
 
 const object1Folder = gui.addFolder('Object1')
+object1Folder.add(activeRotationObject1(), 'animation')
+
 const object1RotationFolder = object1Folder.addFolder('Rotation')
 object1RotationFolder.add(object1.rotation, 'x', 0, Math.PI * 2)
 object1RotationFolder.add(object1.rotation, 'y', 0, Math.PI * 2)
 object1RotationFolder.add(object1.rotation, 'z', 0, Math.PI * 2)
 object1Folder.open()
-//const animationObject1 = object1Folder.addFolder('Animation')
-//animationObject1.add(object1.rotation, 'x', 0, 1, 0.005 )
 
 const object1PositionFolder = object1Folder.addFolder('Position')
 object1PositionFolder.add(object1.position, 'x', -10, 10, 2)
@@ -86,12 +98,14 @@ object1ScaleFolder.add(object1.scale, 'z', -5, 5)
 object1Folder.add(object1, 'visible')
 object1Folder.open()
 const object2Folder = gui.addFolder('Object2')
+object2Folder.add(activeRotationObject2(), 'animation')
 object2Folder.add(object2.position, 'x', 0, 10, 0.01).name('X Position')
 object2Folder
     .add(object2.rotation, 'x', 0, Math.PI * 2, 0.01)
     .name('X Rotation')
 object2Folder.add(object2.scale, 'x', 0, 2, 0.01).name('X Scale')
 const object3Folder = gui.addFolder('Object3')
+object3Folder.add(activeRotationObject3(), 'animation')
 object3Folder.add(object3.position, 'x', 0, 10, 0.01).name('X Position')
 object3Folder
     .add(object3.rotation, 'x', 0, Math.PI * 2, 0.01)
@@ -119,20 +133,34 @@ function animate() {
     stats.update()
 }
 
-function animation() {
-    requestAnimationFrame(animate)
-
-    controls.update()
-    render()
-    object1.rotation.x = Math.PI / 2;
-    stats.update()
-    return object1;
+function activeRotationObject1 (){
+    rotation1.animation = true;
+    return rotation1;
 }
+
+function activeRotationObject2 (){
+    rotation2.animation = true;
+    return rotation2;
+}
+function activeRotationObject3 (){
+    rotation3.animation = true;
+    return rotation3;
+}
+
 function render() {
     renderer.render(scene, camera)
-    object1.rotation.x += 0.005  ;
 
+    if (rotation1.animation == true) {
+        object1.rotation.x += 0.005;
+    }
+
+    if (rotation2.animation == true) {
+        object2.rotation.x += 0.005;
+    }
+    
+    if (rotation3.animation == true) {
+        object3.rotation.x += 0.005;
+    }
 }
 
 animate()
-animation()
