@@ -29,20 +29,19 @@ light2.position.set(-10, 10, 10)
 scene.add(light2)
 
 const icosahedronGeometryObject1 = new THREE.IcosahedronGeometry(1, 0)
-const icosahedronGeometryObject2 = new THREE.IcosahedronGeometry(1, 0)
-const icosahedronGeometryObject3 = new THREE.IcosahedronGeometry(1, 0)
 const material = new THREE.MeshNormalMaterial()
 
 const object1 = new THREE.Mesh(icosahedronGeometryObject1, material)
 object1.position.set(4, 0, 0)
+object1.animations.push()
 scene.add(object1)
+console.log(object1)
 
-
-const object2 = new THREE.Mesh(icosahedronGeometryObject2, material)
+const object2 = new THREE.Mesh(icosahedronGeometryObject1, material)
 object2.position.set(4, 0, 0)
 object1.add(object2)
 
-const object3 = new THREE.Mesh(icosahedronGeometryObject3, material)
+const object3 = new THREE.Mesh(icosahedronGeometryObject1, material)
 object3.position.set(4, 0, 0)
 object2.add(object3)
 
@@ -63,16 +62,18 @@ function addObject() {
     object3.add(newObject)
     return newObject;
 }
+
 const gui = new GUI()
-//[] const newObject = gui.addFolder('addObject')
-// newObject.add(addObject(), 'addObject')
-// newObject.open()
+
 const object1Folder = gui.addFolder('Object1')
 const object1RotationFolder = object1Folder.addFolder('Rotation')
 object1RotationFolder.add(object1.rotation, 'x', 0, Math.PI * 2)
 object1RotationFolder.add(object1.rotation, 'y', 0, Math.PI * 2)
 object1RotationFolder.add(object1.rotation, 'z', 0, Math.PI * 2)
 object1Folder.open()
+//const animationObject1 = object1Folder.addFolder('Animation')
+//animationObject1.add(object1.rotation, 'x', 0, 1, 0.005 )
+
 const object1PositionFolder = object1Folder.addFolder('Position')
 object1PositionFolder.add(object1.position, 'x', -10, 10, 2)
 object1PositionFolder.add(object1.position, 'y', -10, 10, 2)
@@ -103,10 +104,10 @@ cameraFolder.open()
 const stats = Stats()
 document.body.appendChild(stats.dom)
 
-const debug = document.getElementById('debug1') as HTMLDivElement
-
 function animate() {
     requestAnimationFrame(animate)
+
+    // object1.rotation.x = Math.PI / 2;    
     controls.update()
     render()
     const object1WorldPosition = new THREE.Vector3()
@@ -115,33 +116,23 @@ function animate() {
     object2.getWorldPosition(object2WorldPosition)
     const object3WorldPosition = new THREE.Vector3()
     object3.getWorldPosition(object3WorldPosition)
-    debug.innerText =
-        'Red\n' +
-        'Local Pos X : ' +
-        object1.position.x.toFixed(2) +
-        '\n' +
-        'World Pos X : ' +
-        object1WorldPosition.x.toFixed(2) +
-        '\n' +
-        '\nGreen\n' +
-        'Local Pos X : ' +
-        object2.position.x.toFixed(2) +
-        '\n' +
-        'World Pos X : ' +
-        object2WorldPosition.x.toFixed(2) +
-        '\n' +
-        '\nBlue\n' +
-        'Local Pos X : ' +
-        object3.position.x.toFixed(2) +
-        '\n' +
-        'World Pos X : ' +  
-        object3WorldPosition.x.toFixed(2) +
-        '\n'
     stats.update()
 }
 
+function animation() {
+    requestAnimationFrame(animate)
+
+    controls.update()
+    render()
+    object1.rotation.x = Math.PI / 2;
+    stats.update()
+    return object1;
+}
 function render() {
     renderer.render(scene, camera)
+    object1.rotation.x += 0.005  ;
+
 }
 
 animate()
+animation()
