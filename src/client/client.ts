@@ -11,7 +11,9 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     1000
 )
-camera.position.y = 2
+camera.position.x = 8
+camera.position.y = 3
+camera.position.z = 7.5
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
@@ -75,10 +77,17 @@ const rotation3 = {
     animation: true
 }
 
+const moving = {
+    animation: false
+}
+
 const gui = new GUI()
 
 const object1Folder = gui.addFolder('Object1')
-object1Folder.add(activeRotationObject1(), 'animation')
+const object1AnimationFolder = object1Folder.addFolder('Animation')
+
+object1AnimationFolder.add(activeRotationObject1(), 'animation')
+object1AnimationFolder.add(move(), 'animation').name('moving')
 
 const object1RotationFolder = object1Folder.addFolder('Rotation')
 object1RotationFolder.add(object1.rotation, 'x', 0, Math.PI * 2)
@@ -95,7 +104,6 @@ const object1ScaleFolder = object1Folder.addFolder('Scale')
 object1ScaleFolder.add(object1.scale, 'x', -5, 5)
 object1ScaleFolder.add(object1.scale, 'y', -5, 5)
 object1ScaleFolder.add(object1.scale, 'z', -5, 5)
-object1Folder.add(object1, 'visible')
 object1Folder.open()
 const object2Folder = gui.addFolder('Object2')
 object2Folder.add(activeRotationObject2(), 'animation')
@@ -114,6 +122,7 @@ object3Folder.add(object3.scale, 'x', 0, 2, 0.01).name('X Scale')
 const cameraFolder = gui.addFolder('Camera')
 cameraFolder.add(camera.position, 'z', 0, 10)
 cameraFolder.open()
+gui.add(object1, 'visible')
 
 const stats = Stats()
 document.body.appendChild(stats.dom)
@@ -147,6 +156,11 @@ function activeRotationObject3 (){
     return rotation3;
 }
 
+function move() {
+    moving.animation = false;
+    return moving;
+}
+
 function render() {
     renderer.render(scene, camera)
 
@@ -161,6 +175,16 @@ function render() {
     if (rotation3.animation == true) {
         object3.rotation.x += 0.005;
     }
+
+    if (moving.animation == true) {
+        let speed = 0.01;
+        if (object1.position.x > 0) {
+            object1.position.x -= speed;
+        }
+    }
+
 }
 
 animate()
+
+  
