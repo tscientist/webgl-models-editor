@@ -77,7 +77,15 @@ const rotation3 = {
     animation: true
 }
 
-const moving = {
+const movingOBject1 = {
+    animation: false
+}
+
+const movingOBject2 = {
+    animation: false
+}
+
+const movingOBject3 = {
     animation: false
 }
 
@@ -99,7 +107,7 @@ const object1Folder = gui.addFolder('Object1')
 const object1AnimationFolder = object1Folder.addFolder('Animation')
 
 object1AnimationFolder.add(activeRotationObject1(), 'animation')
-object1AnimationFolder.add(move(), 'animation').name('moving')
+object1AnimationFolder.add(moveObject1(), 'animation').name('moving')
 
 const object1RotationFolder = object1Folder.addFolder('Rotation')
 object1RotationFolder.add(object1.rotation, 'x', 0, Math.PI * 2)
@@ -114,6 +122,7 @@ object1PositionFolder.add(object1.position, 'z', -10, 10, 2)
 object1Folder.open()
 
 const object1ScaleFolder = object1Folder.addFolder('Scale')
+
 object1ScaleFolder.add(object1.scale, 'x', -5, 5)
 object1ScaleFolder.add(object1.scale, 'y', -5, 5)
 object1ScaleFolder.add(object1.scale, 'z', -5, 5)
@@ -122,6 +131,7 @@ object1Folder.open()
 //Object2
 const object2Folder = gui.addFolder('Object2')
 object2Folder.add(activeRotationObject2(), 'animation')
+object2Folder.add(moveObject2(), 'animation').name('moving')
 object2Folder.add(object2.position, 'x', 0, 10, 0.01).name('X Position')
 object2Folder.add(object2.rotation, 'x', 0, Math.PI * 2, 0.01).name('X Rotation')
 object2Folder.add(object2.scale, 'x', 0, 2, 0.01).name('X Scale')
@@ -129,6 +139,7 @@ object2Folder.add(object2.scale, 'x', 0, 2, 0.01).name('X Scale')
 //Object3
 const object3Folder = gui.addFolder('Object3')
 object3Folder.add(activeRotationObject3(), 'animation')
+object3Folder.add(moveObject3(), 'animation').name('moving')
 object3Folder.add(object3.position, 'x', 0, 10, 0.01).name('X Position')
 object3Folder.add(object3.rotation, 'x', 0, Math.PI * 2, 0.01).name('X Rotation')
 object3Folder.add(object3.scale, 'x', 0, 2, 0.01).name('X Scale')
@@ -184,9 +195,19 @@ function activeRotationObject3 (){
     return rotation3;
 }
 
-function move() {
-    moving.animation = false;
-    return moving;
+function moveObject1() {
+    movingOBject1.animation = false;
+    return movingOBject1;
+}
+
+function moveObject2() {
+    movingOBject2.animation = false;
+    return movingOBject2;
+}
+
+function moveObject3() {
+    movingOBject3.animation = false;
+    return movingOBject3;
 }
 
 function cameraTargetObject1() {
@@ -219,17 +240,26 @@ function render() {
         object3.rotation.x += 0.005;
     }
 
-    if (moving.animation == true) {
+    if (movingOBject1.animation == true) {
         let speed = 0.01;
-        console.log('object1.position.x,', object1.position.x)
         if (object1.position.x > 0){
             object1.position.x -= speed;
         } 
-        
-        if (object1.position.x <= 0){
-            object1.position.x += speed;
-        }
-    }
+    } 
+
+    if (movingOBject2.animation == true) {
+        let speed = 0.01;
+        if (object2.position.x > 0){
+            object2.position.x -= speed;
+        } 
+    } 
+
+    if (movingOBject3.animation == true) {
+        let speed = 0.01;
+        if (object3.position.x > 0){
+            object3.position.x -= speed;
+        } 
+    } 
 
     if (cameraTargetOBject1.target == true) {
         controls.target.set(object1.position.x, object1.position.y, object1.position.z)
