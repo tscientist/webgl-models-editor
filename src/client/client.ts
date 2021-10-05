@@ -104,22 +104,19 @@ const cameraTargetOBject3 = {
 const gui = new GUI()
 
 const object1Folder = gui.addFolder('Object1')
-const object1AnimationFolder = object1Folder.addFolder('Animation')
 
-object1AnimationFolder.add(activeRotationObject1(), 'animation')
-object1AnimationFolder.add(moveObject1(), 'animation').name('moving')
+object1Folder.add(activeRotationObject1(), 'animation')
+object1Folder.add(moveObject1(), 'animation').name('moving')
 
 const object1RotationFolder = object1Folder.addFolder('Rotation')
 object1RotationFolder.add(object1.rotation, 'x', 0, Math.PI * 2)
 object1RotationFolder.add(object1.rotation, 'y', 0, Math.PI * 2)
 object1RotationFolder.add(object1.rotation, 'z', 0, Math.PI * 2)
-object1Folder.open()
 
 const object1PositionFolder = object1Folder.addFolder('Position')
-object1PositionFolder.add(object1.position, 'x', -10, 10, 2)
+object1PositionFolder.add(object1.position, 'x', 0, 10, 0.01)
 object1PositionFolder.add(object1.position, 'y', -10, 10, 2)
 object1PositionFolder.add(object1.position, 'z', -10, 10, 2)
-object1Folder.open()
 
 const object1ScaleFolder = object1Folder.addFolder('Scale')
 
@@ -132,17 +129,43 @@ object1Folder.open()
 const object2Folder = gui.addFolder('Object2')
 object2Folder.add(activeRotationObject2(), 'animation')
 object2Folder.add(moveObject2(), 'animation').name('moving')
-object2Folder.add(object2.position, 'x', 0, 10, 0.01).name('X Position')
-object2Folder.add(object2.rotation, 'x', 0, Math.PI * 2, 0.01).name('X Rotation')
-object2Folder.add(object2.scale, 'x', 0, 2, 0.01).name('X Scale')
+
+const object2RotationFolder = object2Folder.addFolder('Rotation')
+object2RotationFolder.add(object2.rotation, 'x', 0, Math.PI * 2)
+object2RotationFolder.add(object2.rotation, 'y', 0, Math.PI * 2)
+object2RotationFolder.add(object2.rotation, 'z', 0, Math.PI * 2)
+
+const object2PositionFolder = object2Folder.addFolder('Position')
+object2PositionFolder.add(object2.position, 'x', 0, 10, 0.01)
+object2PositionFolder.add(object2.position, 'y', -10, 10, 2)
+object2PositionFolder.add(object2.position, 'z', -10, 10, 2)
+
+const object2ScaleFolder = object2Folder.addFolder('Scale')
+
+object2ScaleFolder.add(object2.scale, 'x', -5, 5)
+object2ScaleFolder.add(object2.scale, 'y', -5, 5)
+object2ScaleFolder.add(object2.scale, 'z', -5, 5)
 
 //Object3
 const object3Folder = gui.addFolder('Object3')
 object3Folder.add(activeRotationObject3(), 'animation')
 object3Folder.add(moveObject3(), 'animation').name('moving')
-object3Folder.add(object3.position, 'x', 0, 10, 0.01).name('X Position')
-object3Folder.add(object3.rotation, 'x', 0, Math.PI * 2, 0.01).name('X Rotation')
-object3Folder.add(object3.scale, 'x', 0, 2, 0.01).name('X Scale')
+
+const object3RotationFolder = object3Folder.addFolder('Rotation')
+object3RotationFolder.add(object3.rotation, 'x', 0, Math.PI * 2)
+object3RotationFolder.add(object3.rotation, 'y', 0, Math.PI * 2)
+object3RotationFolder.add(object3.rotation, 'z', 0, Math.PI * 2)
+
+const object3PositionFolder = object3Folder.addFolder('Position')
+object3PositionFolder.add(object3.position, 'x', 0, 10, 0.01)
+object3PositionFolder.add(object3.position, 'y', -10, 10, 2)
+object3PositionFolder.add(object3.position, 'z', -10, 10, 2)
+
+const object3ScaleFolder = object3Folder.addFolder('Scale')
+
+object3ScaleFolder.add(object3.scale, 'x', -5, 5)
+object3ScaleFolder.add(object3.scale, 'y', -5, 5)
+object3ScaleFolder.add(object3.scale, 'z', -5, 5)
 
 //Camera
 const cameraFolder = gui.addFolder('Camera')
@@ -150,18 +173,18 @@ const cameraTranslationFolder = cameraFolder.addFolder('Position')
 cameraTranslationFolder.add(camera.position, 'x', -30, 30)
 cameraTranslationFolder.add(camera.position, 'y', -15, 15)
 cameraTranslationFolder.add(camera.position, 'z', -20, 20)
-console.log(camera.rotation.x)
+
 const cameraRotationFolder = cameraFolder.addFolder('Rotation')
 cameraRotationFolder.add(camera.rotation, 'x',  -2, Math.PI * 2)
 cameraRotationFolder.add(camera.rotation, 'y',  0, Math.PI * 2)
 cameraRotationFolder.add(camera.rotation, 'z',  0, Math.PI * 2)
 
-cameraFolder.add(cameraTargetObject1(), 'target').name('Object 1')
-cameraFolder.add(cameraTargetObject2(), 'target').name('Object 2')
-cameraFolder.add(cameraTargetObject3(), 'target').name('Object 3')
-cameraFolder.open()
+const cameraFocusFolder = cameraFolder.addFolder('Focus')
+cameraFocusFolder.add(cameraTargetObject1(), 'target').name('Object 1')
+cameraFocusFolder.add(cameraTargetObject2(), 'target').name('Object 2')
+cameraFocusFolder.add(cameraTargetObject3(), 'target').name('Object 3')
 
-gui.add(object1, 'visible')
+cameraFolder.add(object1, 'visible')
 
 const stats = Stats()
 document.body.appendChild(stats.dom)
