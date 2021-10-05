@@ -39,7 +39,6 @@ const object1 = new THREE.Mesh(icosahedronGeometryObject1, material)
 object1.position.set(4, 0, 0)
 object1.animations.push()
 scene.add(object1)
-console.log(object1)
 
 const object2 = new THREE.Mesh(icosahedronGeometryObject1, material)
 object2.position.set(4, 0, 0)
@@ -113,33 +112,44 @@ object1PositionFolder.add(object1.position, 'x', -10, 10, 2)
 object1PositionFolder.add(object1.position, 'y', -10, 10, 2)
 object1PositionFolder.add(object1.position, 'z', -10, 10, 2)
 object1Folder.open()
+
 const object1ScaleFolder = object1Folder.addFolder('Scale')
 object1ScaleFolder.add(object1.scale, 'x', -5, 5)
 object1ScaleFolder.add(object1.scale, 'y', -5, 5)
 object1ScaleFolder.add(object1.scale, 'z', -5, 5)
 object1Folder.open()
+
+//Object2
 const object2Folder = gui.addFolder('Object2')
 object2Folder.add(activeRotationObject2(), 'animation')
 object2Folder.add(object2.position, 'x', 0, 10, 0.01).name('X Position')
-object2Folder
-    .add(object2.rotation, 'x', 0, Math.PI * 2, 0.01)
-    .name('X Rotation')
+object2Folder.add(object2.rotation, 'x', 0, Math.PI * 2, 0.01).name('X Rotation')
 object2Folder.add(object2.scale, 'x', 0, 2, 0.01).name('X Scale')
+
+//Object3
 const object3Folder = gui.addFolder('Object3')
 object3Folder.add(activeRotationObject3(), 'animation')
 object3Folder.add(object3.position, 'x', 0, 10, 0.01).name('X Position')
-object3Folder
-    .add(object3.rotation, 'x', 0, Math.PI * 2, 0.01)
-    .name('X Rotation')
+object3Folder.add(object3.rotation, 'x', 0, Math.PI * 2, 0.01).name('X Rotation')
 object3Folder.add(object3.scale, 'x', 0, 2, 0.01).name('X Scale')
+
+//Camera
 const cameraFolder = gui.addFolder('Camera')
-cameraFolder.add(camera.position, 'x', -1000, 1000)
-cameraFolder.add(camera.position, 'y', -360, 360)
-cameraFolder.add(camera.position, 'z', -360, 360)
+const cameraTranslationFolder = cameraFolder.addFolder('Position')
+cameraTranslationFolder.add(camera.position, 'x', -30, 30)
+cameraTranslationFolder.add(camera.position, 'y', -15, 15)
+cameraTranslationFolder.add(camera.position, 'z', -20, 20)
+console.log(camera.rotation.x)
+const cameraRotationFolder = cameraFolder.addFolder('Rotation')
+cameraRotationFolder.add(camera.rotation, 'x',  -2, Math.PI * 2)
+cameraRotationFolder.add(camera.rotation, 'y',  0, Math.PI * 2)
+cameraRotationFolder.add(camera.rotation, 'z',  0, Math.PI * 2)
+
 cameraFolder.add(cameraTargetObject1(), 'target').name('Object 1')
 cameraFolder.add(cameraTargetObject2(), 'target').name('Object 2')
 cameraFolder.add(cameraTargetObject3(), 'target').name('Object 3')
 cameraFolder.open()
+
 gui.add(object1, 'visible')
 
 const stats = Stats()
@@ -211,8 +221,13 @@ function render() {
 
     if (moving.animation == true) {
         let speed = 0.01;
-        if (object1.position.x > 0) {
+        console.log('object1.position.x,', object1.position.x)
+        if (object1.position.x > 0){
             object1.position.x -= speed;
+        } 
+        
+        if (object1.position.x <= 0){
+            object1.position.x += speed;
         }
     }
 
