@@ -2,6 +2,8 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'three/examples/jsm/libs/stats.module'
 import { GUI } from 'three/examples/jsm/libs/dat.gui.module'
+import { Camera } from 'three'
+import { Console } from 'console'
 
 const scene = new THREE.Scene()
 
@@ -49,7 +51,6 @@ object2.add(object3)
 
 window.addEventListener('resize', onWindowResize, false)
 function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight
     camera.updateProjectionMatrix()
     renderer.setSize(window.innerWidth, window.innerHeight)
     render()
@@ -79,6 +80,18 @@ const rotation3 = {
 
 const moving = {
     animation: false
+}
+
+const cameraTargetOBject1 = {
+    target: false
+}
+
+const cameraTargetOBject2 = {
+    target: false
+}
+
+const cameraTargetOBject3 = {
+    target: false
 }
 
 const gui = new GUI()
@@ -120,7 +133,12 @@ object3Folder
     .name('X Rotation')
 object3Folder.add(object3.scale, 'x', 0, 2, 0.01).name('X Scale')
 const cameraFolder = gui.addFolder('Camera')
-cameraFolder.add(camera.position, 'z', 0, 10)
+cameraFolder.add(camera.position, 'x', -1000, 1000)
+cameraFolder.add(camera.position, 'y', -360, 360)
+cameraFolder.add(camera.position, 'z', -360, 360)
+cameraFolder.add(cameraTargetObject1(), 'target').name('Object 1')
+cameraFolder.add(cameraTargetObject2(), 'target').name('Object 2')
+cameraFolder.add(cameraTargetObject3(), 'target').name('Object 3')
 cameraFolder.open()
 gui.add(object1, 'visible')
 
@@ -161,6 +179,21 @@ function move() {
     return moving;
 }
 
+function cameraTargetObject1() {
+    cameraTargetOBject1.target = false;
+    return cameraTargetOBject1;
+}
+
+function cameraTargetObject2() {
+    cameraTargetOBject2.target = false;
+    return cameraTargetOBject2;
+}
+
+function cameraTargetObject3() {
+    cameraTargetOBject3.target = false;
+    return cameraTargetOBject3;
+}
+
 function render() {
     renderer.render(scene, camera)
 
@@ -181,6 +214,16 @@ function render() {
         if (object1.position.x > 0) {
             object1.position.x -= speed;
         }
+    }
+
+    if (cameraTargetOBject1.target == true) {
+        controls.target.set(object1.position.x, object1.position.y, object1.position.z)
+    } else if (cameraTargetOBject2.target == true) {
+        controls.target.set(object2.position.x, object2.position.y, object2.position.z)
+    } else if (cameraTargetOBject3.target == true) {
+        controls.target.set(object3.position.x, object3.position.y, object3.position.z)
+    } else {
+        controls.target.set(8, 0, 0)
     }
 
 }
